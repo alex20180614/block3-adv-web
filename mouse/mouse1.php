@@ -39,6 +39,7 @@ class Mouse
 
     public function setPrice($price)
     {
+        // var_dump($price);
         $this->price = $price;
     }
 
