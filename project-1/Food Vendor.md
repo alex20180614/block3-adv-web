@@ -50,4 +50,20 @@ CREATE TABLE DishIngredients (
     FOREIGN KEY (IngredientID) REFERENCES Ingredients(IngredientID)
 );
 
-
+//add a new table with join
+CREATE VIEW DishDetails AS
+SELECT
+    Dishes.DishID,
+    Dishes.DishName,
+    Dishes.Description,
+    Ingredients.IngredientName,
+    Ingredients.IngredientType,
+    Suppliers.SupplierName
+FROM
+    Dishes
+INNER JOIN
+    DishIngredients ON Dishes.DishID = DishIngredients.DishID
+INNER JOIN
+    Ingredients ON DishIngredients.IngredientID = Ingredients.IngredientID
+INNER JOIN
+    Suppliers ON Ingredients.SupplierID = Suppliers.SupplierID;
