@@ -67,3 +67,35 @@ INNER JOIN
     Ingredients ON DishIngredients.IngredientID = Ingredients.IngredientID
 INNER JOIN
     Suppliers ON Ingredients.SupplierID = Suppliers.SupplierID;
+
+
+
+-- Get information about dishes that contain specific types of ingredients and their suppliers -- Meat
+SELECT D.DishID, D.DishName, I.IngredientName, I.IngredientType, I.PricePerUnit
+FROM Dishes D
+JOIN DishIngredients DI ON D.DishID = DI.DishID
+JOIN Ingredients I ON DI.IngredientID = I.IngredientID
+JOIN Suppliers S ON I.SupplierID = S.SupplierID
+WHERE I.IngredientType = 'Meat'
+
+UNION
+
+-- Get information about dishes that contain specific types of ingredients and their suppliers  Vegetables
+SELECT D.DishID, D.DishName, I.IngredientName, I.IngredientType, I.PricePerUnit
+FROM Dishes D
+JOIN DishIngredients DI ON D.DishID = DI.DishID
+JOIN Ingredients I ON DI.IngredientID = I.IngredientID
+JOIN Suppliers S ON I.SupplierID = S.SupplierID
+WHERE I.IngredientType = 'Vegetables' LIMIT 0, 25;
+
+
+
+
+| DishID | DishName | IngredientName | IngredientType | PricePerUnit |
+|--------|----------|-----------------|-----------------|--------------|
+| 101    | Dish1    | IngredientA     | Meat            | 5.99         |
+| 101    | Dish1    | IngredientC     | Meat            | 2.99         |
+| 102    | Dish2    | IngredientA     | Meat            | 5.99         |
+| 102    | Dish2    | IngredientB     | Vegetables      | 3.49         |
+| 103    | Dish3    | IngredientA     | Meat            | 5.99         |
+| 103    | Dish3    | IngredientB     | Vegetables      | 3.49         |
