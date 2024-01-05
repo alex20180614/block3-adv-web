@@ -142,5 +142,64 @@ public function deleteDish($dishId) {
 }
 
 
+public function updateDish($dishId, $dishName, $description, $price) {
+    $mysqli = $this->connect();
+    if ($mysqli) {
+        try {
+            $mysqli->begin_transaction();
+
+            // Use a prepared statement to avoid SQL injection
+            $stmt = $mysqli->prepare("UPDATE Dishes SET DishName = ?, Description = ?, Price = ? WHERE DishID = ?");
+            $stmt->bind_param("ssdi", $dishName, $description, $price, $dishId);
+            $stmt->execute();
+
+            // Check for errors during the execution
+            if ($stmt->errno) {
+                throw new Exception('Error updating dish: ' . $stmt->error);
+            }
+
+            $mysqli->commit();
+            $stmt->close();
+            $mysqli->close();
+            return true;
+        } catch (Exception $e) {
+            // Rollback the transaction in case of an error
+            $mysqli->rollback();
+
+            // Log the error or handle it appropriately
+            error_log($e->getMessage());
+        }
+    }
+
+    return false;
+}
+
+
+// models/DishModel.php
+
+public function selectDishById($dishId) {
+    $mysqli = $this->connect();
+    if ($mysqli) {
+        $stmt = $mysqli->prepare("SELECT DishID, DishName, Description, Price FROM Dishes WHERE DishID = ?");
+        $stmt->bind_param("i", $dishId);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        
+        if ($result && $result->num_rows > 0) {
+            $dish = $result->fetch_assoc();
+            $stmt->close();
+            $mysqli->close();
+            return $dish;
+        } else {
+            // Handle the query error or dish not found
+            error_log('Error executing query or dish not found: ' . $mysqli->error);
+        }
+    }
+
+    return false;
+}
+
+
 }
 ?>

@@ -34,6 +34,17 @@ switch ($action) {
             $controller->deleteDish($dishId);
         }
         break;
+    case 'showEditForm':
+    if (isset($_GET['dishId'])) {
+        $dishId = $_GET['dishId'];
+        $controller->showEditForm($dishId);
+    } else {
+        echo "Invalid request.";
+    }
+    case 'editDish':
+    $controller->editDish();
+    break;
+    break;  
     default:
         // Handle other actions or display a default page
         break;

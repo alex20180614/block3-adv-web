@@ -6,6 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Dish</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <style>
     body {
@@ -20,7 +21,7 @@ h2 {
     color: #333;
 }
 
-form {
+.aa {
     max-width: 400px;
     margin: 20px auto;
     background-color: #fff;
@@ -60,7 +61,7 @@ input[type="submit"]:hover {
 
 <h2>Add Dish</h2>
 
-<form action="" method="post">
+<form class="aa" method="post">
     <div>
         <label for="dishName">Dish Name</label>
         <input type="text" name="dishName" required>

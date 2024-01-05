@@ -122,6 +122,74 @@ public function deleteDish($dishId) {
             echo "Error deleting dish.";
         }
     }
+
+
+    public function showEditForm($dishId) {
+    // Retrieve dish details
+    $dishDetails = $this->dishModel->selectDishById($dishId);
+
+    // Check if the dish exists
+    if ($dishDetails) {
+        include_once __DIR__ . '/../views/edit_form.php';
+    } else {
+        echo "Dish not found.";
+    }
+}
+
+// public function editDish() {
+//     // Retrieve form data
+//     // $dishId = $_POST['dishId'];
+//     // $dishName = $_POST['dishName'];
+//     // $description = $_POST['description'];
+//     // $price = $_POST['price'];
+
+//     if (isset($_POST['dishId'], $_POST['dishName'], $_POST['description'], $_POST['price'])) {
+//     $dishId = $_POST['dishId'];
+//     $dishName = $_POST['dishName'];
+//     $description = $_POST['description'];
+//     $price = $_POST['price'];
+
+//     // 继续处理数据
+// } else {
+//     echo "Invalid form submission.";
+// }
+
+//     // Validate and sanitize input data as needed
+
+//     // Update the dish
+//     if ($this->dishModel->updateDish($dishId, $dishName, $description, $price)) {
+//         echo "<p>Updated dish: $dishName</p>";
+//     } else {
+//         echo "<p>Could not update dish</p>";
+//     }
+
+//     $this->showDishes();
+// }
+public function editDish() {
+    // Check if all required fields are present in the $_POST array
+    if (isset($_POST['dishId'], $_POST['dishName'], $_POST['description'], $_POST['price'])) {
+        // Sanitize and validate input data
+        $dishId = intval($_POST['dishId']); // Assuming DishID is an integer
+        $dishName = htmlspecialchars($_POST['dishName']);
+        $description = htmlspecialchars($_POST['description']);
+        $price = floatval($_POST['price']); // Assuming Price is a floating-point number
+
+        // Validate additional conditions if needed
+
+        // Update the dish
+        if ($this->dishModel->updateDish($dishId, $dishName, $description, $price)) {
+            echo "<p>Updated dish: $dishName</p>";
+        } else {
+            echo "<p>Could not update dish</p>";
+        }
+    } else {
+        echo "Invalid form submission.";
+    }
+
+    $this->showDishes();
+}
+
+
 }
 
 
