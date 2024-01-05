@@ -108,7 +108,38 @@ public function selectDishByName($dishName) {
     return false;
 }
 
+public function deleteDish($dishId) {
+    $mysqli = $this->connect();
 
+    if ($mysqli) {
+        try {
+            $mysqli->begin_transaction();
+
+            // Use a prepared statement to avoid SQL injection
+            $stmt = $mysqli->prepare("DELETE FROM Dishes WHERE DishID = ?");
+            $stmt->bind_param("i", $dishId);
+            $stmt->execute();
+
+            // Check for errors during the execution
+            if ($stmt->errno) {
+                throw new Exception('Error deleting dish: ' . $stmt->error);
+            }
+
+            $mysqli->commit();
+            $stmt->close();
+            $mysqli->close();
+            return true;
+        } catch (Exception $e) {
+            // Rollback the transaction in case of an error
+            $mysqli->rollback();
+
+            // Log the error or handle it appropriately
+            error_log($e->getMessage());
+        }
+    }
+
+    return false;
+}
 
 
 }

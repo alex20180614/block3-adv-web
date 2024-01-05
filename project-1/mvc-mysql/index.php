@@ -12,7 +12,6 @@ $password = "";
 $database = "wei_peter";
 
 $connection2 = new ConnectionObject($host, $username, $password, $database);
-// var_dump($connection2);
 
 $controller = new Controller($connection2);
 
@@ -27,6 +26,13 @@ switch ($action) {
         break;
     case 'showForm':
         $controller->showForm();
+        break;
+    case 'deleteDish':
+        // Handle the deletion action
+        if (isset($_GET['dishId'])) {
+            $dishId = $_GET['dishId'];
+            $controller->deleteDish($dishId);
+        }
         break;
     default:
         // Handle other actions or display a default page
