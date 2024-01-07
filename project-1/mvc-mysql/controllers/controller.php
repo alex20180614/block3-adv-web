@@ -1,213 +1,88 @@
 <?php
-include_once 'connection.php';
-include_once __DIR__ . '/../models/model.php';
-include_once __DIR__ . '/../models/DishModel.php';
-include_once __DIR__ . '/../models/SupplierModel.php';
+    include_once 'models/model.php';
 
-class Controller {
-    private $supplierModel;
-    private $dishModel;
-
-    public function __construct($connection) {
-        $this->supplierModel = new SupplierModel($connection);
-        $this->dishModel = new DishModel($connection);
-    }
-
-    public function showSuppliers() {
-        $suppliers = $this->supplierModel->selectSuppliers();
-        include_once __DIR__ . '/../views/home.php';
-    }
-
-    public function showDishes() {
-        $dishes = $this->dishModel->selectDishes();
-
-        // Check if the deletion action is triggered
-        if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['action'] === 'deleteDish') {
-            // Check if 'dishId' is set
-            if (isset($_GET['dishId'])) {
-                $dishId = $_GET['dishId'];
-
-                // Perform the dish deletion
-                if ($this->dishModel->deleteDish($dishId)) {
-                    echo "Dish deleted successfully.";
-                } else {
-                    echo "Error deleting dish.";
-                }
+    class Controller {
+        private $dish;
+        public function __construct($connection) {
+            $this->dish = new dishModel($connection);
+        }
+        public function showDish() {
+            $dishs = $this->dish->selectDish();
+            include 'views/dish_add.php';
+        }
+        public function showForm() {
+            include 'views/dish.php';
+        }
+        public function add() {
+   
+            $dishID = isset($_POST['dishID']) ? $_POST['dishID'] : '';
+            $dishName = isset($_POST['dishName']) ? $_POST['dishName'] : '';
+            $price = isset($_POST['price']) ? $_POST['price'] : '';
+            if(!$dishName) {
+                echo "<p>Missing information</p>";
+                $this->showForm();
+                return;
+            } else if($this->dish->insertDish($dishName,$price)) {
+                echo "<p>Added dish: $dishName successfully </p>";
             } else {
-                echo "Invalid request.";
+                echo "<p>Could not add dish </p>";
             }
+            $this->showDish();
         }
-        include_once __DIR__ . '/../views/dishes.php';
-    }
 
-    public function showForm() {
-        $ingredients = $this->dishModel->selectIngredients();
-        include_once __DIR__ . '/../views/form.php';
-    }
+ 
 
-   public function addSupplier() {
-        $supplierName = $_POST['supplierName']; // Assuming you have a form field with the name 'supplierName'
-        $supplierLocation = $_POST['supplierLocation']; // Assuming you have a form field with the name 'supplierLocation'
-
-        // Validate and sanitize input data as needed
-
-        if ($this->supplierModel->insertSupplier($supplierName, $supplierLocation)) {
-            echo "<p>Added supplier: $supplierName</p>";
+    public function update($dishID, $dishName, $price) {
+        if ($this->dish->updateDish($dishID, $dishName, $price)) {
+            echo "<p>Updated dish: $dishName successfully </p>";
         } else {
-            echo "<p>Could not add supplier</p>";
+            echo "<p>Could not update dish </p>";
         }
-
-        $this->showSuppliers();
+        $this->showDish();
     }
 
 
-public function addDish() {
-    $dishName = $_POST['dishName'];
-    $description = $_POST['description'];
-    $price = $_POST['price']; 
 
-    if ($this->dishModel->insertDish($dishName, $description, $price)) {
-        echo "<div class='added-content'>";
-        echo "<h2 style='color: green;'>Added dish: $dishName</h2>";
-
-        // Display the added dish details with edit and delete buttons
-        $addedDishes = $this->dishModel->selectDishes();
-
-        if ($addedDishes !== false) {
-            echo "<ul'>";
-
-           foreach ($addedDishes as $addedDish) {
-            echo "<li>";
-            echo "Dish Name: " . $addedDish['DishName'] . ", Price: $" . ($addedDish['Price'] ?? 'N/A') . ", Description: " . $addedDish['Description'];
-            
-            // Edit button
-            echo "<a style='padding:10px' href='#' class='edit-btn'>Edit</a>";
-
-            // Delete button with onclick event to confirm deletion
-            echo "<a href='#' class='delete-btn' onclick='confirmDelete({$addedDish['DishID']})'>Delete</a>";
-
-            echo "</li>";
-        }
-
-            echo "</ul>";
+    public function deleteForm($dishID) {
+        $dish = $this->dish->getDishByID($dishID);
+    
+        if ($dish) {
+            include 'views/delete_dish.php';
         } else {
-            echo "<p style='color: red;'>Error retrieving added dish details</p>";
+            echo "<p>Dish not found</p>";
         }
 
-        echo "</div>";
-    } else {
-        echo "<p style='color: red;'>Could not add dish</p>";
     }
-
-    $this->showDishes();
-}
-
-
-// controllers/controller.php
-
-public function deleteDish($dishId) {
-    if ($this->dishModel->deleteDish($dishId)) {
-        echo "<p style='color: green;'>Deleted dish with ID: $dishId</p>";
-    } else {
-        echo "<p style='color: red;'>Could not delete dish with ID: $dishId</p>";
-    }
-
-    $this->showDishes();
-}
-
-    public function deleteDishAction($dishId) {
-        if ($this->dishModel->deleteDish($dishId)) {
-            echo "Dish deleted successfully.";
+    
+    public function delete($dishID) {
+        if ($this->dish->deleteDish($dishID)) {
+            echo "<p>Deleted dish with ID: $dishID successfully </p>";
         } else {
-            echo "Error deleting dish.";
+            echo "<p>Could not delete dish </p>";
         }
+    
+        $this->showDish();
     }
 
-
-    public function showEditForm($dishId) {
-    // Retrieve dish details
-    $dishDetails = $this->dishModel->selectDishById($dishId);
-
-    // Check if the dish exists
-    if ($dishDetails) {
-        include_once __DIR__ . '/../views/edit_form.php';
-    } else {
-        echo "Dish not found.";
-    }
+public function showDishWithDishingredients() {
+    $dishesWithDishingredients = $this->dish->JoinDishesWith();
+    include 'views/jointable.php'; 
 }
 
-// public function editDish() {
-//     // Retrieve form data
-//     // $dishId = $_POST['dishId'];
-//     // $dishName = $_POST['dishName'];
-//     // $description = $_POST['description'];
-//     // $price = $_POST['price'];
 
-//     if (isset($_POST['dishId'], $_POST['dishName'], $_POST['description'], $_POST['price'])) {
-//     $dishId = $_POST['dishId'];
-//     $dishName = $_POST['dishName'];
-//     $description = $_POST['description'];
-//     $price = $_POST['price'];
+       
+    public function editForm($dishID) {
+                
+        $dish = $this->dish->getDishByID($dishID);
 
-//     // 继续处理数据
-// } else {
-//     echo "Invalid form submission.";
-// }
-
-//     // Validate and sanitize input data as needed
-
-//     // Update the dish
-//     if ($this->dishModel->updateDish($dishId, $dishName, $description, $price)) {
-//         echo "<p>Updated dish: $dishName</p>";
-//     } else {
-//         echo "<p>Could not update dish</p>";
-//     }
-
-//     $this->showDishes();
-// }
-public function editDish() {
-    // Check if all required fields are present in the $_POST array
-    if (isset($_POST['dishId'], $_POST['dishName'], $_POST['description'], $_POST['price'])) {
-        // Sanitize and validate input data
-        $dishId = intval($_POST['dishId']); // Assuming DishID is an integer
-        $dishName = htmlspecialchars($_POST['dishName']);
-        $description = htmlspecialchars($_POST['description']);
-        $price = floatval($_POST['price']); // Assuming Price is a floating-point number
-
-        // Validate additional conditions if needed
-
-        // Update the dish
-        if ($this->dishModel->updateDish($dishId, $dishName, $description, $price)) {
-            echo "<p>Updated dish: $dishName</p>";
+        if ($dish) {
+            include 'views/dish.php'; 
         } else {
-            echo "<p>Could not update dish</p>";
+            echo "<p>Dish not found</p>";
         }
-    } else {
-        echo "Invalid form submission.";
     }
 
-    $this->showDishes();
-}
-
-
-}
-
-
-$host = "localhost";
-$username = "root";
-$password = "";
-$database = "wei_peter";
-$connection2 = new ConnectionObject($host, $username, $password, $database);
-
-$controller = new Controller($connection2);
-
-if (isset($_POST['submit'])) {
-    if (isset($_POST['dishName'])) {
-        $controller->addDish();
-    } else {
-        $controller->addSupplier();
     }
-} else {
-    $controller->showForm();
-}
+
 ?>
+
