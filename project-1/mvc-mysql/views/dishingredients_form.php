@@ -6,7 +6,8 @@
     <title>Dishingredients</title>
 </head>
 <body>
-    <h1>List of Dishingredients</h1>
+    <h1>Dishingredients List</h1>
+        <a class="btn-vendor" href="?action=showeDishingredients">Add Dishingredients</a>
 
     <?php
     if ($dishingredients === false) {
@@ -37,7 +38,6 @@
     }
     ?>
 
-    <a class="btn-vendor" href="?action=showeDishingredients">Add Dishingredients</a>
 </body>
 </html>
 

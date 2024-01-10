@@ -6,7 +6,6 @@
     <title>Dishingredients</title>
 </head>
 <body>
-    <h1>List of Dishingredients</h1>
     
     <?php
 //     echo '<ul class="grid-container">';
@@ -19,10 +18,10 @@
                 '<p>' . 
                 'Dishingredient ID: ' . $dish['dishingredientsID'] . '<br>' . 
                 'Dishingredient Name: ' . $dish['dishingredientsName'] . '<br>' . 
+                'Dish Name: ' . $dish['dishName'] . '<br>' .
                 'Supplier ID: ' . $dish['supplierID'] . '<br>' . 
                 'Ingredient ID: ' . $dish['ingredientID'] . '<br>' .
-                'Price: $' . $dish['price'] . '<br>' .
-                'Dish Name: ' . $dish['dishName'] . '<br>' .
+                'Dish Price: $' . $dish['price'] . '<br>' .
                 '</p>' .
                 '</li>';
         }

@@ -45,6 +45,19 @@
         .btn1:hover {
             background-color: yellowgreen;
         }
+
+        a{
+            padding: 5px 20px;
+            background-color: yellowgreen;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 30px;
+        }
+        a:hover{
+            background: blue;
+        
+        }
     </style>
 <body>
     <h1>MVC</h1>
@@ -52,7 +65,7 @@
     <a class="btn1" href="?action=showIngredients">Ingredients</a>
     <a class="btn1" href="?action=showDishingredients">Dishingredients</a>
     <a class="btn1" href="?action=showSuppliers">Suppliers</a>
-    <a class="btn1" href="?action=showDishWithDishingredients">Dishes Join Dishingredients</a>
+    <a class="btn1" href="?action=showDishWithDishingredients">Data tables Join</a>
 </body>
 </html>
 <?php
@@ -86,6 +99,9 @@
         $action = isset($_GET['action']) ? $_GET['action'] : '';
 
         switch ($action) {
+            case 'showForm':
+                $controller->showForm();
+                break;
             case 'edit':
                 $dishID = isset($_GET['dishID']) ? $_GET['dishID'] : '';
                 if ($dishID) {
@@ -195,28 +211,18 @@
                 $dishingredientsController ->showeDishingredients();
                 break;
 
-                case 'createDishingredients':
-                    $dishingredientsController ->createDishingredients();
-                    break;
+            case 'createDishingredients':
+                $dishingredientsController ->createDishingredients();
+                break;
 
-            case 'deleteDishingredients':
-                $dishingredientsID = isset($_GET['dishingredientsID']) ? $_GET['dishingredientsID'] : '';
-                if ($dishingredientsID) {
-                    $dishingredientsController ->deleteDishingredients($dishingredientsID);
-                }else {
-                    echo "<p>Error: dishingredients ID not provided for deletion.</p>";
+            default:
+                if (isset($_POST['submit'])) {
+                    $controller->add();
+                } else {
+                    $controller->showForm();
                 }
                 break;
 
-
-                default:
-                    if (isset($_POST['submit'])) {
-                        $controller->add();
-                    } else {
-                        $controller->showForm();
-                    }
-                    break;
-
-                }
+            }
 
     ?>

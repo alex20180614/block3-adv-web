@@ -2,11 +2,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>List of Ingredients</title>
+    <title>Ingredients</title>
 </head>
 <body>
 
 <h2>Enter new entry</h2>
+<p><a class="btn-add-vendor" href="?action=showIngredientForm">Add New Ingredient</a></p>
 
 <table>
     <thead>
@@ -15,7 +16,6 @@
             <th>Ingredient Name</th>
             <th>IngredientType</th>
             <th>PricePerUnit</th>
-            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -33,7 +33,6 @@
     </tbody>
 </table>
 
-<p><a class="btn-add-vendor" href="?action=showIngredientForm">Add New Ingredient</a></p>
 
 </body>
 </html> 
