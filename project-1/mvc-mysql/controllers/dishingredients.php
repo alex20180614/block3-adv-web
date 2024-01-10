@@ -25,8 +25,11 @@ class DishingredientsController  {
 
     public function showeDishingredients() {
         $dishes = $this->getAllDishes();
+        // echo " $dishes" ."1";
         $suppliers = $this->getAllSuppliers();
+        //  echo " $suppliers" ."2";//error
         $ingredients = $this->getAllIngredients();
+        //  echo " $ingredients" ."3";
 
         if ($dishes === false || $suppliers === false || $ingredients === false) {
             echo "Error fetching data.";
@@ -44,7 +47,6 @@ class DishingredientsController  {
 
 
  public function createDishingredients() {
-    error_log('Entering createDishingredients method');
     if($_SERVER['REQUEST_METHOD'] === 'POST') {
         $dishingredientsName = $_POST['dishingredientsName'];
         $dishID = $_POST['dishID'];
@@ -54,9 +56,9 @@ class DishingredientsController  {
         $this->index();
         exit();
     } else {
-        include('views/create_dishingredients.php');
+        include('views/dishingredients_add.php');
     }
-        error_log('Exiting createDishingredients method');
+        // error_log('Exiting createDishingredients method');
 
 }
 

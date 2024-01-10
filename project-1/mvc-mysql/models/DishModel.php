@@ -71,19 +71,22 @@ public function insertDish($dishName, $description, $price = null) {
 public function selectDishes() {
     $mysqli = $this->connect();
     if ($mysqli) {
-        $result = $mysqli->query("SELECT DishID, DishName, Description, Price FROM Dishes");
+        $sql = "SELECT DishID, DishName, Description, Price FROM Dishes"; // Define the SQL query
+
+        $result = $mysqli->query($sql);
         if ($result) {
             $dishes = $result->fetch_all(MYSQLI_ASSOC);
             $mysqli->close();
             return $dishes;
         } else {
             // Handle the query error
-            error_log('Error executing query: ' . $mysqli->error);
+            error_log('Error executing query: ' . $mysqli->error . ' - SQL: ' . $sql);
         }
     }
 
     return false;
 }
+
 
 
 
@@ -97,6 +100,32 @@ public function selectDishByName($dishName) {
 
         if ($result && $result->num_rows > 0) {
             $dish = $result->fetch_assoc();
+            $mysqli->close();
+            return $dish;
+        } else {
+            // Handle the query error or dish not found
+            error_log('Error executing query or dish not found: ' . $mysqli->error);
+        }
+    }
+
+    return false;
+}
+
+
+// models/DishModel.php
+
+public function selectDishById($dishId) {
+    $mysqli = $this->connect();
+    if ($mysqli) {
+        $stmt = $mysqli->prepare("SELECT DishID, DishName, Description, Price FROM Dishes WHERE DishID = ?");
+        $stmt->bind_param("i", $dishId);
+        $stmt->execute();
+
+        $result = $stmt->get_result();
+        
+        if ($result && $result->num_rows > 0) {
+            $dish = $result->fetch_assoc();
+            $stmt->close();
             $mysqli->close();
             return $dish;
         } else {
@@ -141,7 +170,6 @@ public function deleteDish($dishId) {
     return false;
 }
 
-
 public function updateDish($dishId, $dishName, $description, $price) {
     $mysqli = $this->connect();
     if ($mysqli) {
@@ -168,32 +196,6 @@ public function updateDish($dishId, $dishName, $description, $price) {
 
             // Log the error or handle it appropriately
             error_log($e->getMessage());
-        }
-    }
-
-    return false;
-}
-
-
-// models/DishModel.php
-
-public function selectDishById($dishId) {
-    $mysqli = $this->connect();
-    if ($mysqli) {
-        $stmt = $mysqli->prepare("SELECT DishID, DishName, Description, Price FROM Dishes WHERE DishID = ?");
-        $stmt->bind_param("i", $dishId);
-        $stmt->execute();
-
-        $result = $stmt->get_result();
-        
-        if ($result && $result->num_rows > 0) {
-            $dish = $result->fetch_assoc();
-            $stmt->close();
-            $mysqli->close();
-            return $dish;
-        } else {
-            // Handle the query error or dish not found
-            error_log('Error executing query or dish not found: ' . $mysqli->error);
         }
     }
 

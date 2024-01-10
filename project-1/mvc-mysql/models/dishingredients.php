@@ -80,7 +80,7 @@ class DishingredientsModel   {
         $mysqli = $this->connect();
 
         if ($mysqli) {
-            $result = $mysqli->query("SELECT * FROM suppliers");
+            $result = $mysqli->query("SELECT * FROM sppliers");
 
             if (!$result) {
                 error_log('Error in selectSuppliers method: ' . $mysqli->error);
@@ -95,25 +95,7 @@ class DishingredientsModel   {
         }
     }
 
-    public function selectIngredients() {
-        $mysqli = $this->connect();
-
-        if ($mysqli) {
-            $result = $mysqli->query("SELECT * FROM ingredients");
-
-            if (!$result) {
-                error_log('Error in selectIngredients method: ' . $mysqli->error);
-                return false;
-            }
-
-            $results = $result->fetch_all(MYSQLI_ASSOC);
-            $mysqli->close();
-            return $results;
-        } else {
-            return false;
-        }
-    }
-
+    
     public function addDishingredients($dishingredientsName, $dishID, $supplierID, $ingredientID) {
     $mysqli = $this->connect();
     if ($mysqli) {
@@ -140,5 +122,25 @@ class DishingredientsModel   {
             return false;
         }
     }
+
+    public function selectIngredients() {
+        $mysqli = $this->connect();
+
+        if ($mysqli) {
+            $result = $mysqli->query("SELECT * FROM ingredients");
+
+            if (!$result) {
+                error_log('Error in selectIngredients method: ' . $mysqli->error);
+                return false;
+            }
+
+            $results = $result->fetch_all(MYSQLI_ASSOC);
+            $mysqli->close();
+            return $results;
+        } else {
+            return false;
+        }
+    }
+
 }
 ?>

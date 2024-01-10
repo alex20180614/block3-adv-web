@@ -76,7 +76,7 @@ public function showDishWithDishingredients() {
         $dish = $this->dish->getDishByID($dishID);
 
         if ($dish) {
-            include 'views/dish.php'; 
+            include 'views/dish.php';
         } else {
             echo "<p>Dish not found</p>";
         }

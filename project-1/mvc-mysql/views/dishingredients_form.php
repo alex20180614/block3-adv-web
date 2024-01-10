@@ -22,13 +22,13 @@
                 <th>Ingredient ID</th>
             </tr>
             <?php
-            foreach ($dishingredients as $dishingredient) {
+            foreach ($dishingredients as $dishingredient1) {
                 echo "<tr>";
-                echo "<td>{$dishingredient['dishingredientsID']}</td>";
-                echo "<td>" . (isset($dishingredient['dishingredientsName']) ? $dishingredient['dishingredientsName'] : '') . "</td>";
-                echo "<td>" . (isset($dishingredient['dishID']) ? $dishingredient['dishID'] : '') . "</td>";
-                echo "<td>" . (isset($dishingredient['supplierID']) ? $dishingredient['supplierID'] : '') . "</td>";
-                echo "<td>" . (isset($dishingredient['ingredientID']) ? $dishingredient['ingredientID'] : '') . "</td>";
+                echo "<td>{$dishingredient1['dishingredientsID']}</td>";
+                echo "<td>" . (isset($dishingredient1['dishingredientsName']) ? $dishingredient1['dishingredientsName'] : '') . "</td>";
+                echo "<td>" . (isset($dishingredient1['dishID']) ? $dishingredient1['dishID'] : '') . "</td>";
+                echo "<td>" . (isset($dishingredient1['supplierID']) ? $dishingredient1['supplierID'] : '') . "</td>";
+                echo "<td>" . (isset($dishingredient1['ingredientID']) ? $dishingredient1['ingredientID'] : '') . "</td>";
                 echo "</tr>";
             }
             ?>
@@ -37,7 +37,7 @@
     }
     ?>
 
-    <a class="btn-vendor" href="?action=showDishingredients">Add Dishingredients</a>
+    <a class="btn-vendor" href="?action=showeDishingredients">Add Dishingredients</a>
 </body>
 </html>
 

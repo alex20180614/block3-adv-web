@@ -1,7 +1,7 @@
 
 
 
-<h2><?php echo isset($dish) ? 'Edit Dish Information' : 'Add a new dish'; ?></h2>
+<h2><?php echo isset($dish) ? 'Edit Dish Information' : 'Add dish'; ?></h2>
 
 <form class="edit-form" action="?action=<?php echo isset($dish) ? 'update' : 'add'; ?>" method="post">
     <?php if (isset($dish)) : ?>

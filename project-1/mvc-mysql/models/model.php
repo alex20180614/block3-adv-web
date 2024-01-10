@@ -97,7 +97,7 @@ class dishModel {
     }
 
 
-
+//dish join dishingredients 
     public function JoinDishesWith() {
         $sql = "SELECT * FROM dishes NATURAL JOIN dishingredients";
        
@@ -115,7 +115,6 @@ class dishModel {
         return $rows;
     }
 
-    //end
 }
 
 

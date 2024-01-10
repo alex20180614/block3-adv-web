@@ -7,9 +7,11 @@ class ModelSupplierConnectionObject {
 
 class SupplierModel {
     private $ModelSupplierConnectionObject;
+    //  private $mysqli;  
 
     public function __construct($ModelSupplierConnectionObject) {
         $this->ModelSupplierConnectionObject = $ModelSupplierConnectionObject;
+        // $this->mysqli = $this->connect(); 
     }
 
     private function connect() {
@@ -36,7 +38,8 @@ class SupplierModel {
         $mysqli = $this->connect();
 
         if ($mysqli) {
-            $result = $mysqli->query("SELECT * FROM sppliers");
+            $result = $mysqli->query("SELECT * FROM suppliers");
+            // print_r($result);
 
             if (!$result) {
                 error_log('Error in selectSuppliers method: ' . $mysqli->error);
@@ -44,6 +47,7 @@ class SupplierModel {
             }
 
             $results = $result->fetch_all(MYSQLI_ASSOC);
+            // print_r($result);
             $mysqli->close();
             return $results;
         } else {
@@ -51,11 +55,11 @@ class SupplierModel {
         }
     }
 
-    public function insertSupplier($supplierName, $supplierLocation) {
+   public function insertSupplier($supplierName, $supplierLocation) {
         $mysqli = $this->connect();
 
         if ($mysqli) {
-            $mysqli->query("INSERT INTO sppliers (supplierName, supplierLocation) VALUES ('$supplierName', '$supplierLocation')");
+            $mysqli->query("INSERT INTO suppliers (supplierName, supplierLocation) VALUES ('$supplierName', '$supplierLocation')");
             mysqli_close($mysqli);
             return true;
         } else {
@@ -66,7 +70,7 @@ class SupplierModel {
     public function getSupplierByID($supplierID) {
         $mysqli = $this->connect();
         if ($mysqli) {
-            $result = $mysqli->query("SELECT * FROM sppliers WHERE supplierID='$supplierID'");
+            $result = $mysqli->query("SELECT * FROM suppliers WHERE supplierID='$supplierID'");
             $supplier = $result->fetch_assoc();
             $mysqli->close();
             return $supplier;
@@ -78,7 +82,8 @@ class SupplierModel {
     public function deleteSupplier($supplierID) {
         $mysqli = $this->connect();
         if ($mysqli) {
-            $result = $mysqli->query("DELETE FROM sppliers WHERE supplierID='$supplierID'");
+            print_r($mysqli .'11');
+            $result = $mysqli->query("DELETE FROM suppliers WHERE supplierID='$supplierID'");
             if (!$result) {
                 error_log("Error deleting supplier: " . $mysqli->error);
                 return false;

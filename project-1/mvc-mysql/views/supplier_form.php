@@ -22,8 +22,8 @@
         <label for="supplierName">Supplier Name:</label>
         <input type="text" id="supplierName" name="supplierName"><br>
 
-        <label for="address">Location:</label>
-        <input type="text" id="address" name="address"><br>
+        <label for="supplierLocation">Location:</label>
+        <input type="text" id="supplierLocation" name="supplierLocation"><br>
 
         <input type="submit" name="submit" value="Add Supplier">
     </form>
