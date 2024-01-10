@@ -80,7 +80,7 @@ class DishingredientsModel   {
         $mysqli = $this->connect();
 
         if ($mysqli) {
-            $result = $mysqli->query("SELECT * FROM sppliers");
+            $result = $mysqli->query("SELECT * FROM suppliers");
 
             if (!$result) {
                 error_log('Error in selectSuppliers method: ' . $mysqli->error);
