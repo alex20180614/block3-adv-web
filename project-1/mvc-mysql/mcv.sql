@@ -48,12 +48,12 @@ INSERT INTO `dishes` (`dishID`, `dishName`, `price`) VALUES
 --
 
 CREATE TABLE `dishingredients` (
-  `dishingredientsID` int(11) NOT NULL,
+  `dishingredientsID` int(11) NOT NULL AUTO_INCREMENT,
   `dishingredientsName` varchar(255) NOT NULL,
   `dishID` int(11) NOT NULL,
   `supplierID` int(11) NOT NULL,
-  `ingredientID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `ingredientID` int(11) NOT NULL,
+  PRIMARY KEY (`dishingredientsID`)) ENGINE = InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `dishingredients`
@@ -90,11 +90,11 @@ INSERT INTO `ingredients` (`ingredientID`, `ingredientName`, `IngredientType`, `
 -- Table structure for table `sppliers`
 --
 
-CREATE TABLE `sppliers` (
-  `supplierID` int(11) NOT NULL,
+CREATE TABLE `suppliers` (
+  `supplierID` int(11) NOT NULL AUTO_INCREMENT,
   `supplierName` varchar(255) DEFAULT NULL,
-  `supplierLocation` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `supplierLocation` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`supplierID`)) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `sppliers`

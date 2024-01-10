@@ -8,19 +8,18 @@
 </head>
 <body>
  
-  <div class="suppliers-container">
+  <div>
      <a  href="?action=showSupplierForm">Add Supplier</a>
-    <?php foreach ($suppliers as $supplier): ?>
+    <?php foreach ($suppliers as $supplier1): ?>
         <div class="supplier-card">
-            <h3><?php echo $supplier['supplierName']; ?></h3>
-            <p><strong>Supplier ID:</strong> <?php echo $supplier['supplierID']; ?></p>
-            <p><strong>Supplier Location:</strong> <?php echo $supplier['supplierLocation']; ?></p>
-            <a class="btn-delete" href="?action=deleteSupplier&supplierID=<?php echo $supplier['supplierID']; ?>">Delete</a>
+            <h3><?php echo $supplier1['supplierName']; ?></h3>
+            <p><strong>Supplier ID:</strong> <?php echo $supplier1['supplierID']; ?></p>
+            <p><strong>Supplier Location:</strong> <?php echo $supplier1['supplierLocation']; ?></p>
+            <a class="btn-delete" href="?action=deleteSupplier&supplierID=<?php echo $supplier1['supplierID']; ?>">Delete</a>
         </div>
     <?php endforeach; ?>
-</div>
 
-   
 
 </body>
 </html>
+ 

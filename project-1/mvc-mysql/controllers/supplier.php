@@ -16,9 +16,9 @@ class SupplierController {
         include 'views/supplier_form.php'; 
     }
 
-    public function addSupplier() {
+public function addSupplier() {
         $supplierName = $_POST['supplierName'];
-        $supplierLocation = $_POST['address'];
+        $supplierLocation = $_POST['supplierLocation'];
         if(!$supplierName) {
             echo "<p>Missing information</p>";
             $this->showSupplierForm();
@@ -30,6 +30,7 @@ class SupplierController {
         }
         $this->showSuppliers();
     }
+
 
     public function deleteSupplier($supplierID) {
         $supplier = $this->supplier->getSupplierByID($supplierID);
